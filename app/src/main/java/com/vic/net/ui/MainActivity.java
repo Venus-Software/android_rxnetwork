@@ -8,9 +8,9 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vic.net.R;
 import com.vic.net.api.ApiService;
 import com.vic.net.vo.WeatherVo;
+import com.vic.rxnetsdk.CommonSubscriber;
 import com.vic.rxnetsdk.RxRetrofit;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends RxAppCompatActivity implements View.OnClickListener {
@@ -38,7 +38,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
                 .queryWeather("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<WeatherVo>() {
+                .subscribe(new CommonSubscriber<WeatherVo>() {
 
                     @Override
                     public void onStart() {
