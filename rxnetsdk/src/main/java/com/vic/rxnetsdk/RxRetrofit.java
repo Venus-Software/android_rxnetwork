@@ -126,7 +126,7 @@ public class RxRetrofit {
     }
 
     /**
-     * 创建api
+     * 创建接口api
      * @param service
      * @param <T>
      * @return
