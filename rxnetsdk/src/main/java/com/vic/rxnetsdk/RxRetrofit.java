@@ -23,7 +23,6 @@ import rx.schedulers.Schedulers;
 public class RxRetrofit {
 
     private static final Map<Class<?>, Object> SERVICE_MAP = new ArrayMap<>();
-    //volatile关键字禁止JVM指令重排序优化
     private volatile static RxRetrofit INSTANCE;
     private static Retrofit RETROFIT;
 
