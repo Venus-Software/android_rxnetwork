@@ -26,10 +26,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        //chrome 拦截url工具
-        Stetho.initializeWithDefaults(this);
 
         RxRetrofit.initInstance()
+                .showRequestInChrome(this,true)
                 .baseUrl("http://x")
                 .initOkhttpClient()
                 //请求再处理

@@ -1,9 +1,11 @@
 package com.vic.rxnetsdk;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.net.CookieHandler;
@@ -76,6 +78,18 @@ public class RxRetrofit {
         return INSTANCE;
     }
 
+    /**
+     * 是否在Chrome浏览器中抓取请求信息
+     * @param flag
+     * @return
+     */
+    public RxRetrofit showRequestInChrome(Context context, boolean flag) {
+        if(flag){
+            Stetho.initializeWithDefaults(context);
+        }
+        return INSTANCE;
+    }
+
     public void initialize() {
         if (TextUtils.isEmpty(baseUrl)) {
             throw new IllegalArgumentException("please invoke initialize baseUrl before invoke initialize");
@@ -111,6 +125,12 @@ public class RxRetrofit {
         return INSTANCE;
     }
 
+    /**
+     * 创建api
+     * @param service
+     * @param <T>
+     * @return
+     */
     public <T> T create(@NonNull Class<T> service) {
         Object o = SERVICE_MAP.get(service);
         if (o != null) {
