@@ -11,6 +11,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
@@ -107,7 +108,7 @@ public class RxRetrofit {
     public RxRetrofit initOkhttpClient() {
         okhttpClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
-                .cookieJar(new JavaNetCookieJar(cookieHandler))
+                .cookieJar(new JavaNetCookieJar(cookieHandler)) //自动管理cookie
                 .build();
         return INSTANCE;
     }
@@ -122,6 +123,25 @@ public class RxRetrofit {
             throw new NullPointerException("please invoke initOkhttpClient before invoke addReprocessRequestInterceptor");
         }
         okhttpClient.newBuilder().addInterceptor(interceptor).build();
+        return INSTANCE;
+    }
+
+    /**
+     * 设置超时时间
+     * @param read
+     * @param write
+     * @param connect
+     * @return
+     */
+    public RxRetrofit timeOut(int read,int write,int connect) {
+        if (okhttpClient == null) {
+            throw new NullPointerException("please invoke initOkhttpClient before invoke timeOut");
+        }
+        okhttpClient.newBuilder()
+                .readTimeout(read, TimeUnit.SECONDS)
+                .writeTimeout(write,TimeUnit.SECONDS)
+                .connectTimeout(connect,TimeUnit.SECONDS)
+                .build();
         return INSTANCE;
     }
 
