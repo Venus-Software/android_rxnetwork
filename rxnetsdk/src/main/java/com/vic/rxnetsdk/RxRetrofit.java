@@ -81,11 +81,12 @@ public class RxRetrofit {
 
     /**
      * 是否在Chrome浏览器中抓取请求信息
+     *
      * @param flag
      * @return
      */
     public RxRetrofit showRequestInChrome(Context context, boolean flag) {
-        if(flag){
+        if (flag) {
             Stetho.initializeWithDefaults(context);
         }
         return INSTANCE;
@@ -103,6 +104,7 @@ public class RxRetrofit {
 
     /**
      * 初始化okhttpClient
+     *
      * @return
      */
     public RxRetrofit initOkhttpClient() {
@@ -115,6 +117,7 @@ public class RxRetrofit {
 
     /**
      * 请求再处理
+     *
      * @param interceptor
      * @return
      */
@@ -128,25 +131,27 @@ public class RxRetrofit {
 
     /**
      * 设置超时时间
+     *
      * @param read
      * @param write
      * @param connect
      * @return
      */
-    public RxRetrofit timeOut(int read,int write,int connect) {
+    public RxRetrofit timeOut(int read, int write, int connect) {
         if (okhttpClient == null) {
             throw new NullPointerException("please invoke initOkhttpClient before invoke timeOut");
         }
         okhttpClient.newBuilder()
                 .readTimeout(read, TimeUnit.SECONDS)
-                .writeTimeout(write,TimeUnit.SECONDS)
-                .connectTimeout(connect,TimeUnit.SECONDS)
+                .writeTimeout(write, TimeUnit.SECONDS)
+                .connectTimeout(connect, TimeUnit.SECONDS)
                 .build();
         return INSTANCE;
     }
 
     /**
      * 创建接口api
+     *
      * @param service
      * @param <T>
      * @return
