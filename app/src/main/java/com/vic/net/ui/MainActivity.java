@@ -34,7 +34,8 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
      * 请求天气信息
      */
     private void requestWeatherInfo() {
-        RxRetrofit.getInstance().create(ApiService.class)
+        RxRetrofit.getInstance()
+                .create(ApiService.class)
                 .queryWeather("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
