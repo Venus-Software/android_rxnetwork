@@ -31,7 +31,7 @@ public class App extends Application {
                 .showRequestInChrome(this,true)
                 .baseUrl("http://x")
                 .initOkhttpClient()
-                .timeOut(60,60,20)
+                .timeOut(60,60,10)
                 //请求再处理
                 .addReprocessRequestInterceptor(new Interceptor() {
                     @Override
