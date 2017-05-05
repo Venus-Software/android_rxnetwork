@@ -8,7 +8,6 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vic.net.R;
 import com.vic.net.api.ApiService;
 import com.vic.net.vo.WeatherVo;
-import com.vic.rxnetsdk.CommonSubscriber;
 import com.vic.rxnetsdk.RxRetrofit;
 import com.vic.rxnetsdk.RxSubscriber;
 
@@ -26,7 +25,8 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-                requestWeatherInfo();
+//                requestWeatherInfo();
+//                request2();
                 break;
         }
     }
@@ -71,4 +71,12 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
 //                    }
 //                });
     }
+
+//    private void request2() {
+//        RxRetrofit.getInstance()
+//                .create(ApiService.class)
+//                .queryWeather("上海", "c835721be56ed3b6e603c6873625d4d5")
+//                .compose(this.<WeatherVo>bindToLifecycle())
+//
+//    }
 }
