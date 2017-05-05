@@ -26,7 +26,6 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn:
                 requestWeatherInfo();
-//                request2();
                 break;
         }
     }
@@ -71,12 +70,4 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
 //                    }
 //                });
     }
-
-//    private void request2() {
-//        RxRetrofit.getInstance()
-//                .create(ApiService.class)
-//                .queryWeather("上海", "c835721be56ed3b6e603c6873625d4d5")
-//                .compose(this.<WeatherVo>bindToLifecycle())
-//
-//    }
 }
