@@ -19,8 +19,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 import rx.schedulers.Schedulers;
 
 /**
@@ -71,29 +69,14 @@ public class RxRetrofit {
     }
 
     /**
-     * 添加自定义的转换工厂
+     * 添加数据转换工厂
+     * GsonConverterFactory.create()->Gson转bean对象；
+     * ScalarsConverterFactory.create()->返回String或者是后台返回的原始数据；
      *
      * @param factory
      */
-    public void addCustomConverterFactory(Converter.Factory factory) {
+    public RxRetrofit addConverterFactory(Converter.Factory factory) {
         this.converterFactory = factory;
-    }
-
-    /**
-     * 添加数据转换工厂
-     *
-     * @param type
-     * @return
-     */
-    public RxRetrofit addConverterFactory(int type) {
-        switch (type) {
-            case ConverterFactoryType.GSON:
-                this.converterFactory = GsonConverterFactory.create();
-                break;
-            case ConverterFactoryType.SCALARS: //请求的到的是后台返回的原始数据
-                this.converterFactory = ScalarsConverterFactory.create();
-                break;
-        }
         return this;
     }
 

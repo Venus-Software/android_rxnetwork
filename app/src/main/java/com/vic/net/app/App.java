@@ -2,8 +2,6 @@ package com.vic.net.app;
 
 import android.app.Application;
 
-import com.facebook.stetho.Stetho;
-import com.vic.rxnetsdk.ConverterFactoryType;
 import com.vic.rxnetsdk.RxRetrofit;
 
 import java.io.IOException;
@@ -11,6 +9,7 @@ import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by liu song on 2017/5/3.
@@ -29,10 +28,10 @@ public class App extends Application {
         instance = this;
 
         RxRetrofit.initInstance()
-                .showRequestInChrome(this,true)
+                .showRequestInChrome(this, true)
                 .baseUrl("http://x")
                 .initOkhttpClient()
-                .timeOut(60,60,10)
+                .timeOut(60, 60, 10)
                 //请求再处理
                 .addReprocessRequestInterceptor(new Interceptor() {
                     @Override
@@ -41,7 +40,7 @@ public class App extends Application {
                         return chain.proceed(request);
                     }
                 })
-                .addConverterFactory(ConverterFactoryType.GSON)
+                .addConverterFactory(GsonConverterFactory.create())
                 .initialize();
 
 
