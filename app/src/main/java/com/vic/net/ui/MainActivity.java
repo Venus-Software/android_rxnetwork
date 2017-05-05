@@ -39,8 +39,8 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
                 .queryWeather("上海", "c835721be56ed3b6e603c6873625d4d5")
 //                .queryWeatherByScalars("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<WeatherVo>() {
+//                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<WeatherVo>(this) {
                     @Override
                     protected void callBack(WeatherVo dataSet) {
                         Toast.makeText(MainActivity.this, "onNext=天气预报时间：" + dataSet.getResult().getData().getWeather().get(0).getDate(), Toast.LENGTH_SHORT).show();

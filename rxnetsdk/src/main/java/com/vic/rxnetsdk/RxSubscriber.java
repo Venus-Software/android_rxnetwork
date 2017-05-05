@@ -1,5 +1,7 @@
 package com.vic.rxnetsdk;
 
+import android.app.Activity;
+import android.content.Context;
 import android.net.ParseException;
 import android.util.Log;
 
@@ -21,6 +23,14 @@ import rx.Subscriber;
 public abstract class RxSubscriber<T> extends Subscriber<T> {
 
     private static final String TAG = RxSubscriber.class.getSimpleName();
+    private Activity activity;
+
+    public RxSubscriber() {
+    }
+
+    public RxSubscriber(Activity activity) {
+        this.activity=activity;
+    }
 
     @Override
     public void onStart() {
@@ -59,9 +69,18 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     }
 
     @Override
-    public void onNext(T t) {
+    public void onNext(final T t) {
         Log.i(TAG, "onNext()");
-        callBack(t);
+        if(activity==null){
+            callBack(t);
+        }else{
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callBack(t);
+                }
+            });
+        }
     }
 
     //成功回调
