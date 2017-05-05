@@ -1,9 +1,7 @@
 package com.vic.rxnetsdk;
 
-import android.app.Application;
 import android.net.ParseException;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
 
@@ -40,7 +38,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         Log.e(TAG, "onError()");
         if (e instanceof HttpException) {
             /*HTTP错误*/
-            Log.e(TAG, "http错误码："+((HttpException) e).code());
+            Log.e(TAG, "http错误码：" + ((HttpException) e).code());
         } else if (e instanceof ConnectException || e instanceof SocketTimeoutException) {
             /*链接异常*/
             Log.e(TAG, "链接异常!");
