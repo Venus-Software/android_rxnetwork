@@ -1,7 +1,6 @@
 package com.vic.rxnetsdk;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.ParseException;
 import android.util.Log;
 
@@ -29,7 +28,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     }
 
     public RxSubscriber(Activity activity) {
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @Override
@@ -71,9 +70,9 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onNext(final T t) {
         Log.i(TAG, "onNext()");
-        if(activity==null){
+        if (activity == null) {
             callBack(t);
-        }else{
+        } else {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
