@@ -25,7 +25,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-//                requestWeatherInfo();
+                requestWeatherInfo();
 //                request2();
                 break;
         }
