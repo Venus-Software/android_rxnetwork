@@ -16,9 +16,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 import rx.schedulers.Schedulers;
 
 /**
@@ -33,6 +35,7 @@ public class RxRetrofit {
     private static Retrofit RETROFIT;
     private static OkHttpClient okhttpClient;
     private static String baseUrl;
+    private static Converter.Factory converterFactory;
 
     private RxRetrofit() {
     }
@@ -62,9 +65,36 @@ public class RxRetrofit {
         RETROFIT = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okhttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(converterFactory)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build();
+    }
+
+    /**
+     * 添加自定义的转换工厂
+     *
+     * @param factory
+     */
+    public void addCustomConverterFactory(Converter.Factory factory) {
+        this.converterFactory = factory;
+    }
+
+    /**
+     * 添加数据转换工厂
+     *
+     * @param type
+     * @return
+     */
+    public RxRetrofit addConverterFactory(int type) {
+        switch (type) {
+            case ConverterFactoryType.GSON:
+                this.converterFactory = GsonConverterFactory.create();
+                break;
+            case ConverterFactoryType.SCALARS: //请求的到的是后台返回的原始数据
+                this.converterFactory = ScalarsConverterFactory.create();
+                break;
+        }
+        return this;
     }
 
     public void setBaseUrl(String baseUrl) {
@@ -76,7 +106,7 @@ public class RxRetrofit {
             throw new IllegalArgumentException("baseUrl cannot be empty");
         }
         setBaseUrl(baseUrl);
-        return INSTANCE;
+        return this;
     }
 
     /**
@@ -89,7 +119,7 @@ public class RxRetrofit {
         if (flag) {
             Stetho.initializeWithDefaults(context);
         }
-        return INSTANCE;
+        return this;
     }
 
     public void initialize() {
@@ -98,6 +128,9 @@ public class RxRetrofit {
         }
         if (okhttpClient == null) {
             throw new NullPointerException("please invoke initOkhttpClient before invoke initialize");
+        }
+        if (converterFactory == null) {
+            throw new NullPointerException("please add a ConverterFactory for retrofit before invoke initialize");
         }
         initRetrofit();
     }
@@ -112,7 +145,7 @@ public class RxRetrofit {
                 .addNetworkInterceptor(new StethoInterceptor())
                 .cookieJar(new JavaNetCookieJar(cookieHandler)) //自动管理cookie
                 .build();
-        return INSTANCE;
+        return this;
     }
 
     /**
@@ -126,7 +159,7 @@ public class RxRetrofit {
             throw new NullPointerException("please invoke initOkhttpClient before invoke addReprocessRequestInterceptor");
         }
         okhttpClient.newBuilder().addInterceptor(interceptor).build();
-        return INSTANCE;
+        return this;
     }
 
     /**
@@ -146,7 +179,7 @@ public class RxRetrofit {
                 .writeTimeout(write, TimeUnit.SECONDS)
                 .connectTimeout(connect, TimeUnit.SECONDS)
                 .build();
-        return INSTANCE;
+        return this;
     }
 
     /**

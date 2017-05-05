@@ -3,6 +3,7 @@ package com.vic.net.app;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
+import com.vic.rxnetsdk.ConverterFactoryType;
 import com.vic.rxnetsdk.RxRetrofit;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class App extends Application {
                         return chain.proceed(request);
                     }
                 })
+                .addConverterFactory(ConverterFactoryType.GSON)
                 .initialize();
 
 

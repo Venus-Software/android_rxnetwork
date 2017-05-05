@@ -20,4 +20,10 @@ public interface ApiService {
             @NonNull @Query("key") String key
     );
 
+    @GET("http://op.juhe.cn/onebox/weather/query")
+    Observable<String> queryWeatherByScalars(
+            @NonNull @Query("cityname") String cityname,
+            @NonNull @Query("key") String key
+    );
+
 }
