@@ -1,6 +1,7 @@
 package com.vic.net.ui;
 
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.vic.rxnetsdk.RxRetrofit;
 import com.vic.rxnetsdk.RxSubscriber;
 
 import okhttp3.ResponseBody;
+
 
 public class MainActivity extends RxAppCompatActivity implements View.OnClickListener {
 
@@ -25,20 +27,27 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-                requestWeatherInfo();
-//                testX();
+//                requestWeatherInfo();
+                testX();
                 break;
         }
     }
 
     private void testX() {
+
+        ArrayMap<String, String> arrayMap = new ArrayMap<>();
+        arrayMap.put("cityname", "上海");
+        arrayMap.put("key", "c835721be56ed3b6e603c6873625d4d5");
+
+
         RxRetrofit.getInstance()
                 .create(ApiService.class)
-                .testGetByArray(1, new String[]{"x","y","z"})
+                .get("http://op.juhe.cn/onebox/weather/query", arrayMap)
                 .compose(this.<ResponseBody>bindToLifecycle())
                 .subscribe(new RxSubscriber<ResponseBody>(this) {
                     @Override
                     protected void callBack(ResponseBody dataSet) {
+//                        Toast.makeText(MainActivity.this, "onNext=天气预报时间：" + dataSet.getResult().getData().getWeather().get(0).getDate(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -49,7 +58,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     private void requestWeatherInfo() {
         RxRetrofit.getInstance()
                 .create(ApiService.class)
-                .testPost("上海", "good","c835721be56ed3b6e603c6873625d4d5")
+                .testPost("上海", "good", "c835721be56ed3b6e603c6873625d4d5")
 //                .queryWeatherByScalars("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
 //                .observeOn(AndroidSchedulers.mainThread())

@@ -94,6 +94,12 @@ public interface ApiService {
     @GET("test")
     Observable<ResponseBody> testHeaderMap(@HeaderMap Map<String, String> headers);
 
+    @GET
+    Observable<ResponseBody> get(
+            @Url String url,
+            @QueryMap Map<String, String> map
+    );
+
     //POST-------------------------------------------
 
     //post请求
