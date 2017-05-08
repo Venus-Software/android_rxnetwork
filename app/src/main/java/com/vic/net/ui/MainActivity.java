@@ -1,7 +1,6 @@
 package com.vic.net.ui;
 
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.widget.Toast;
 
@@ -9,14 +8,8 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vic.net.R;
 import com.vic.net.api.ApiService;
 import com.vic.net.vo.WeatherVo;
-import com.vic.rxnetsdk.RxApi;
 import com.vic.rxnetsdk.RxRetrofit;
 import com.vic.rxnetsdk.RxSubscriber;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
-import okhttp3.ResponseBody;
 
 
 public class MainActivity extends RxAppCompatActivity implements View.OnClickListener {
@@ -31,28 +24,9 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-//                requestWeatherInfo();
-                testX();
+                requestWeatherInfo();
                 break;
         }
-    }
-
-    private void testX() {
-
-        ArrayMap<String, String> arrayMap = new ArrayMap<>();
-        arrayMap.put("cityname", "上海");
-        arrayMap.put("key", "c835721be56ed3b6e603c6873625d4d5");
-
-//        RxRetrofit.getInstance()
-//                .create(entityClass)
-//                .get("http://op.juhe.cn/onebox/weather/query", arrayMap)
-//                .compose(this.<ResponseBody>bindToLifecycle())
-//                .subscribe(new RxSubscriber<ResponseBody>(this) {
-//                    @Override
-//                    protected void callBack(ResponseBody responseBody) {
-//                        Toast.makeText(MainActivity.this,responseBody.toString() , Toast.LENGTH_SHORT).show();
-//                    }
-//                });
     }
 
     /**
