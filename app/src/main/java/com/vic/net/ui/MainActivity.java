@@ -11,7 +11,7 @@ import com.vic.net.vo.WeatherVo;
 import com.vic.rxnetsdk.RxRetrofit;
 import com.vic.rxnetsdk.RxSubscriber;
 
-import rx.android.schedulers.AndroidSchedulers;
+import okhttp3.ResponseBody;
 
 public class MainActivity extends RxAppCompatActivity implements View.OnClickListener {
 
@@ -26,8 +26,21 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn:
                 requestWeatherInfo();
+//                testX();
                 break;
         }
+    }
+
+    private void testX() {
+        RxRetrofit.getInstance()
+                .create(ApiService.class)
+                .testGetByArray(1, new String[]{"x","y","z"})
+                .compose(this.<ResponseBody>bindToLifecycle())
+                .subscribe(new RxSubscriber<ResponseBody>(this) {
+                    @Override
+                    protected void callBack(ResponseBody dataSet) {
+                    }
+                });
     }
 
     /**
@@ -36,7 +49,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     private void requestWeatherInfo() {
         RxRetrofit.getInstance()
                 .create(ApiService.class)
-                .queryWeather("上海", "c835721be56ed3b6e603c6873625d4d5")
+                .testPost("上海", "good","c835721be56ed3b6e603c6873625d4d5")
 //                .queryWeatherByScalars("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
 //                .observeOn(AndroidSchedulers.mainThread())

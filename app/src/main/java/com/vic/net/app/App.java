@@ -29,7 +29,7 @@ public class App extends Application {
 
         RxRetrofit.initInstance()
                 .showRequestInChrome(this, true)
-                .baseUrl("http://x")
+                .baseUrl("http://www.baidu.com/")
                 .initOkhttpClient()
                 .timeOut(60, 60, 10)
                 //请求再处理
