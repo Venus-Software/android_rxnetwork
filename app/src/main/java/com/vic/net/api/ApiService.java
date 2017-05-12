@@ -30,7 +30,7 @@ import rx.Observable;
 
 public interface ApiService {
 
-    @GET("http://op.juhe.cn/onebox/weather/query")
+    @GET("http://op.juhe.cn/onebox/weather/quer")
     Observable<WeatherVo> queryWeather(
             @NonNull @Query("cityname") String cityname,
             @NonNull @Query("key") String key

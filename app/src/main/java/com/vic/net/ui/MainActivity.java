@@ -1,6 +1,7 @@
 package com.vic.net.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     private void requestWeatherInfo() {
         RxRetrofit.getInstance()
                 .create(ApiService.class)
-                .testPost("上海", "good", "c835721be56ed3b6e603c6873625d4d5")
+                .queryWeather("上海","c835721be56ed3b6e603c6873625d4d5")
 //                .queryWeatherByScalars("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -43,6 +44,12 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
                     @Override
                     protected void callBack(WeatherVo dataSet) {
                         Toast.makeText(MainActivity.this, "onNext=天气预报时间：" + dataSet.getResult().getData().getWeather().get(0).getDate(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    protected void onFailure(String msg) {
+                        Log.i("LOG_CAT",""+msg);
+                        Toast.makeText(MainActivity.this, ""+msg, Toast.LENGTH_SHORT).show();
                     }
                 });
 //                .subscribe(new CommonSubscriber<WeatherVo>() {

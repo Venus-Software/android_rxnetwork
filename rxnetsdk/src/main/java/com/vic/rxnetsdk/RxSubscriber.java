@@ -45,26 +45,34 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         Log.e(TAG, "onError()");
+        String msg="";
         if (e instanceof HttpException) {
-            /*HTTP错误*/
-            Log.e(TAG, "http错误码：" + ((HttpException) e).code());
+            msg="http错误码：" + ((HttpException) e).code();
         } else if (e instanceof ConnectException || e instanceof SocketTimeoutException) {
-            /*链接异常*/
-            Log.e(TAG, "链接异常!");
+            msg="链接异常";
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
-            /*解析异常*/
-            Log.e(TAG, "解析异常!");
+            msg="解析异常";
         } else if (e instanceof UnknownHostException) {
-            /*解析域名异常*/
-            Log.e(TAG, "解析域名异常!");
+            msg="解析域名异常";
         } else {
-            /*未知异常*/
-            Log.e(TAG, "未知异常!");
+            msg="未知异常";
         }
 
         e.printStackTrace();
+
+        if (activity == null) {
+            onFailure(msg);
+        } else {
+            final String finalMsg = msg;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onFailure(finalMsg);
+                }
+            });
+        }
     }
 
     @Override
@@ -81,6 +89,8 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             });
         }
     }
+
+    protected void onFailure(String msg){}
 
     //成功回调
     protected abstract void callBack(T t);
