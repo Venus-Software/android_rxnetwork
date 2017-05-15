@@ -37,9 +37,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
         RxRetrofit.getInstance()
                 .create(ApiService.class)
                 .queryWeather("上海","c835721be56ed3b6e603c6873625d4d5")
-//                .queryWeatherByScalars("上海", "c835721be56ed3b6e603c6873625d4d5")
                 .compose(this.<WeatherVo>bindToLifecycle())
-//                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<WeatherVo>(this) {
                     @Override
                     protected void callBack(WeatherVo dataSet) {
