@@ -64,7 +64,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         if (e instanceof HttpException) {
             msg="http错误码：" + ((HttpException) e).code();
         } else if (e instanceof ConnectException || e instanceof SocketTimeoutException) {
-            msg="链接异常";
+            msg = "链接异常";
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
