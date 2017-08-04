@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2017 Venus Software(VIC), Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.vic.rxnetsdk;
 
 import android.app.Activity;
@@ -16,9 +31,9 @@ import retrofit2.HttpException;
 import rx.Subscriber;
 
 /**
- * Created by liu song on 2017/5/4.
+ * RxSubscriber
+ * 提供了通用的网络回复Subscriber
  */
-
 public abstract class RxSubscriber<T> extends Subscriber<T> {
 
     private static final String TAG = RxSubscriber.class.getSimpleName();

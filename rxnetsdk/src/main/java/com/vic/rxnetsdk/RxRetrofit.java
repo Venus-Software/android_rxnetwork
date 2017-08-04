@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2017 Venus Software(VIC), Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.vic.rxnetsdk;
 
 import android.content.Context;
@@ -22,11 +37,26 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by liu song on 2017/5/3.
+ * RxRetrofit
+ * 提供对Retrofit, RxJava, OkHttp的封装
+ * Example:
+ * <pre class="prettyprint">
+ *      RxRetrofit.initInstance()
+ *           .showRequestInChrome(this, true)
+ *           .baseUrl("http://www.baidu.com/")
+ *           .initOkhttpClient()
+ *           .timeOut(60, 60, 10)
+ *           .addReprocessRequestInterceptor(new Interceptor() {
+ *               @Override public Response intercept(Chain chain) throws IOException {
+ *                  Request request = chain.request();
+ *                  return chain.proceed(request);
+ *               }
+ *           })
+ *           .addConverterFactory(GsonConverterFactory.create())
+ *           .initialize();
+ * </pre>
  */
-
 public class RxRetrofit {
-
     private static final Map<Class<?>, Object> SERVICE_MAP = new ArrayMap<>();
     private static final CookieHandler cookieHandler = new CookieManager();
     private volatile static RxRetrofit INSTANCE;
@@ -72,6 +102,7 @@ public class RxRetrofit {
      * 添加数据转换工厂
      * GsonConverterFactory.create()->Gson转bean对象
      * ScalarsConverterFactory.create()->返回String
+     * 必传项
      *
      * @param factory
      */
@@ -84,6 +115,10 @@ public class RxRetrofit {
         this.baseUrl = baseUrl;
     }
 
+    /**
+     * 设置baseUrl
+     * 必须。需在initialize之前完成
+     */
     public RxRetrofit baseUrl(@NonNull String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {
             throw new IllegalArgumentException("baseUrl cannot be empty");
@@ -94,6 +129,7 @@ public class RxRetrofit {
 
     /**
      * 是否在Chrome浏览器中抓取请求信息
+     * 非必须。可以随时调用
      *
      * @param flag
      * @return
@@ -120,6 +156,7 @@ public class RxRetrofit {
 
     /**
      * 初始化okhttpClient
+     * 必传项
      *
      * @return
      */
@@ -133,6 +170,8 @@ public class RxRetrofit {
 
     /**
      * 请求再处理
+     * 提供添加签名等机制
+     * 非必须。需在initialize之前完成
      *
      * @param interceptor
      * @return
@@ -147,6 +186,7 @@ public class RxRetrofit {
 
     /**
      * 设置超时时间
+     * 非必须。需在initialize之前完成
      *
      * @param read
      * @param write
@@ -191,12 +231,19 @@ public class RxRetrofit {
      * @return
      */
     public <T> T create(String baseUrl, @NonNull Class<T> service) {
-        if(this.baseUrl.equals(baseUrl)) {
-           return create(service);
+        if (this.baseUrl.equals(baseUrl)) {
+            return create(service);
         } else {
-            Retrofit.Builder builder = RETROFIT.newBuilder();
-            builder.baseUrl(baseUrl);
-            return builder.build().create(service);
+            Object o = SERVICE_MAP.get(service);
+            if (o != null) {
+                return (T) o;
+            } else {
+                Retrofit.Builder builder = RETROFIT.newBuilder();
+                builder.baseUrl(baseUrl);
+                T t = builder.build().create(service);
+                SERVICE_MAP.put(service, t);
+                return t;
+            }
         }
     }
 
