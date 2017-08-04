@@ -183,4 +183,21 @@ public class RxRetrofit {
         }
     }
 
+    /**
+     * 创建接口api, 你可以在这里临时指定别的baseURL
+     *
+     * @param service
+     * @param <T>
+     * @return
+     */
+    public <T> T create(String baseUrl, @NonNull Class<T> service) {
+        if(this.baseUrl.equals(baseUrl)) {
+           return create(service);
+        } else {
+            Retrofit.Builder builder = RETROFIT.newBuilder();
+            builder.baseUrl(baseUrl);
+            return builder.build().create(service);
+        }
+    }
+
 }
