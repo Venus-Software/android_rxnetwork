@@ -60,7 +60,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         Log.e(TAG, "onError()");
-        String msg="";
+        String msg = "";
         if (e instanceof HttpException) {
             msg="http错误码：" + ((HttpException) e).code();
         } else if (e instanceof ConnectException || e instanceof SocketTimeoutException) {
