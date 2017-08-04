@@ -68,7 +68,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
-            msg="解析异常";
+            msg = "解析异常";
         } else if (e instanceof UnknownHostException) {
             msg="解析域名异常";
         } else {
